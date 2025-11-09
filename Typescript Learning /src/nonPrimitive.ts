@@ -30,16 +30,24 @@ let destination :[string, string, number]= ['India' , 'USA' , 100];
 
 const user:{
     firstname : string;
-    middlename : string;
+    middlename ?: string;
     lastname : string;
+    isMarried ?: boolean;
+    organization : "PH"; //value => type . Literal type
+    readonly id : number;
 } ={
     firstname : 'Rahat',
      middlename: 'Ahmed',
     lastname : 'Rahe',
+    isMarried : false,
+    organization : "PH",
+    id : 1122
+   
 
 }
 
 
+console.log(user);
 
 
 
