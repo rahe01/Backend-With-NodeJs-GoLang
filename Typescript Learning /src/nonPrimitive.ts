@@ -34,7 +34,7 @@ const user:{
     lastname : string;
 } ={
     firstname : 'Rahat',
-    // middlename: 'Ahmed',
+     middlename: 'Ahmed',
     lastname : 'Rahe',
 
 }
