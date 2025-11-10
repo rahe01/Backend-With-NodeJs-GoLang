@@ -19,6 +19,8 @@ getDashboard('guest'); // Guest Dashboard
 
 // Intersection
 
+
+
 type Employee ={
     name : string;
     employeeId : number;
