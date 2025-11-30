@@ -1,23 +1,24 @@
 {
-  "name": "raw-nodejs",
+  "name": "curd-with-postgresql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
-    "build": "tsc"
+    "dev": "npx tsx watch ./src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^24.10.1",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
-  },
   "dependencies": {
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/pg": "^8.15.6",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }
