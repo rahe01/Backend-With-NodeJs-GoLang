@@ -9,7 +9,6 @@ const app = express();
 const port = 5000;
 
 // parser
-
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
@@ -18,6 +17,8 @@ app.use(express.json());
 const pool = new Pool({
   connectionString: `${process.env.CONNECTION_STR}`,
 });
+
+
 
 const initDB = async () => {
   await pool.query(`  
@@ -81,7 +82,7 @@ app.get("/", logger, (req: Request, res: Response) => {
   res.send("Hello World! Next level");
 });
 
-// ======================================== Users CRUD ============================================
+// ====================== Users CRUD ===========================
 app.post("/users", async (req: Request, res: Response) => {
   const { name, email } = req.body;
   try {
@@ -105,6 +106,8 @@ app.post("/users", async (req: Request, res: Response) => {
     });
   }
 });
+
+
 
 // get all users
 app.get("/users", async (req: Request, res: Response) => {
@@ -215,7 +218,7 @@ app.delete("/users/:id", async (req: Request, res: Response) => {
 });
 
 
-// ======================================== Todos CRUD ===========================================
+// =================Todos CRUD ================
 
 
 app.post("/todos", async (req: Request, res: Response) => {
@@ -257,7 +260,7 @@ app.post("/todos", async (req: Request, res: Response) => {
 
 
 
-// ===================================Not found=========================================
+// ==================Not found======================
 
 app.use((req:Request, res: Response) =>{
 
