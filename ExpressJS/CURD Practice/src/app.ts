@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
+import { authRoutes } from "./modules/auth/auth.routes";
 const express = require("express");
 const app = express();
+
+
+app.use(express.json())
+
 
 
 app.get("/", (req: Request, res: Response) => {
@@ -12,6 +17,7 @@ app.get("/", (req: Request, res: Response) => {
 
 
 
+app.use('/api/v1/auth' , authRoutes);
 
 
 

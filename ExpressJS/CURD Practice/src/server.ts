@@ -4,6 +4,9 @@ import initDB from "./config/db";
 
 const port = config.port;
 
+
+
+
 const stratServer = async () => {
   try {
     await initDB();
@@ -15,5 +18,6 @@ const stratServer = async () => {
     process.exit(1);
   }
 };
+
 
 stratServer();
