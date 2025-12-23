@@ -25,6 +25,12 @@ const signupUser = async (req: Request, res: Response) => {
   }
 };
 
+
+
+
+
+
+
 const signinUser = async (req: Request, res: Response) => {
   try {
     if (!req.body) {
