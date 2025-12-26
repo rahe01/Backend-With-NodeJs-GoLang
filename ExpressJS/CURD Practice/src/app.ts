@@ -3,8 +3,6 @@ import { authRoutes } from "./modules/auth/auth.routes";
 import { userRoutes } from "./modules/user/user.routes";
 const express = require("express");
 const app = express();
-
-
 app.use(express.json())
 
 
@@ -17,28 +15,12 @@ app.get("/", (req: Request, res: Response) => {
 
 
 
-
+// *************Auth Routes*************
 app.use('/api/v1/auth' , authRoutes);
 
 
+// *************User Routes*************
 app.use('/users' , userRoutes)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

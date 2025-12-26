@@ -10,7 +10,8 @@ const userPasswordReset = async (req: Request, res: Response) => {
       });
     }
 
-    const { id, oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
+    const id = Number(req.params.id);
 
     if (!id || !oldPassword || !newPassword) {
       return res.status(400).json({

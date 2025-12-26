@@ -7,7 +7,7 @@ const router = Router();
 
 
 
-router.patch("/change-password" , userControllers.userPasswordReset);
+router.patch("/change-password/:id" , userControllers.userPasswordReset);
 
 
 
