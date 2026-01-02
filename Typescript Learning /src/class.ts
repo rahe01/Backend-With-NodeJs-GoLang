@@ -20,5 +20,5 @@ class Animal {
 const dog = new Animal("Kemm" , "ghew" , "american")
 
 console.log(dog.name);
-
+const dog1 = new Animal("Kemm" , "ghew" , "american")
 dog.makesound()
