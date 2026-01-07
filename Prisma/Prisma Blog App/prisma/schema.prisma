@@ -36,9 +36,9 @@ model Comment {
   content  String    @db.Text
   authorId String // better auth
   postId   String
-  post     Post      @relation(fields: [postId], references: [id])
+  post     Post      @relation(fields: [postId], references: [id] , onDelete: Cascade)
   parentId String?
-  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id] , onDelete: Cascade)
   replies  Comment[] @relation("CommentReplies")
 
   status    CommentStatus @default(APPROVED)
@@ -62,21 +62,22 @@ enum CommentStatus {
 }
 
 model User {
-  id            String    @id
+  id            String  @id @default(cuid())
   name          String
-  email         String
-  emailVerified Boolean   @default(false)
+  email         String  @unique
+  emailVerified Boolean @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
 
-  role   String? @default("USER")
+  role   String  @default("USER")
   phone  String?
-  status String? @default("ACTIVE")
+  status String  @default("ACTIVE")
 
-  @@unique([email])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+
   @@map("user")
 }
 
