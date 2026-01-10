@@ -1,39 +1,8 @@
 -- CreateEnum
-CREATE TYPE "PostStatus" AS ENUM ('DRAFT', 'PUBLISHED', 'ARCHIVED');
-
--- CreateEnum
 CREATE TYPE "CommentStatus" AS ENUM ('APPROVED', 'REJECT');
 
--- CreateTable
-CREATE TABLE "posts" (
-    "id" TEXT NOT NULL,
-    "title" VARCHAR(225) NOT NULL,
-    "content" TEXT NOT NULL,
-    "thumbnail" TEXT,
-    "isFeatured" BOOLEAN NOT NULL DEFAULT false,
-    "status" "PostStatus" NOT NULL DEFAULT 'PUBLISHED',
-    "tags" TEXT[],
-    "views" INTEGER NOT NULL DEFAULT 0,
-    "authorId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "posts_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "comments" (
-    "id" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "authorId" TEXT NOT NULL,
-    "postId" TEXT NOT NULL,
-    "parentId" TEXT,
-    "status" "CommentStatus" NOT NULL DEFAULT 'APPROVED',
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "comments_pkey" PRIMARY KEY ("id")
-);
+-- CreateEnum
+CREATE TYPE "PostStatus" AS ENUM ('DRAFT', 'PUBLISHED', 'ARCHIVED');
 
 -- CreateTable
 CREATE TABLE "user" (
@@ -42,11 +11,11 @@ CREATE TABLE "user" (
     "email" TEXT NOT NULL,
     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT,
+    "role" TEXT NOT NULL DEFAULT 'USER',
+    "phone" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'ACTIVE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "role" TEXT DEFAULT 'USER',
-    "phone" TEXT,
-    "status" TEXT DEFAULT 'ACTIVE',
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -96,14 +65,36 @@ CREATE TABLE "verification" (
     CONSTRAINT "verification_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE INDEX "posts_authorId_idx" ON "posts"("authorId");
+-- CreateTable
+CREATE TABLE "comments" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "postId" TEXT NOT NULL,
+    "parentId" TEXT,
+    "status" "CommentStatus" NOT NULL DEFAULT 'APPROVED',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- CreateIndex
-CREATE INDEX "comments_postId_idx" ON "comments"("postId");
+    CONSTRAINT "comments_pkey" PRIMARY KEY ("id")
+);
 
--- CreateIndex
-CREATE INDEX "comments_authorId_idx" ON "comments"("authorId");
+-- CreateTable
+CREATE TABLE "posts" (
+    "id" TEXT NOT NULL,
+    "title" VARCHAR(225) NOT NULL,
+    "content" TEXT NOT NULL,
+    "thumbnail" TEXT,
+    "isFeatured" BOOLEAN NOT NULL DEFAULT false,
+    "status" "PostStatus" NOT NULL DEFAULT 'PUBLISHED',
+    "tags" TEXT[],
+    "views" INTEGER NOT NULL DEFAULT 0,
+    "authorId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "posts_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
@@ -120,14 +111,23 @@ CREATE INDEX "account_userId_idx" ON "account"("userId");
 -- CreateIndex
 CREATE INDEX "verification_identifier_idx" ON "verification"("identifier");
 
--- AddForeignKey
-ALTER TABLE "comments" ADD CONSTRAINT "comments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE INDEX "comments_postId_idx" ON "comments"("postId");
 
--- AddForeignKey
-ALTER TABLE "comments" ADD CONSTRAINT "comments_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "comments"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+-- CreateIndex
+CREATE INDEX "comments_authorId_idx" ON "comments"("authorId");
+
+-- CreateIndex
+CREATE INDEX "posts_authorId_idx" ON "posts"("authorId");
 
 -- AddForeignKey
 ALTER TABLE "session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "account" ADD CONSTRAINT "account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "comments" ADD CONSTRAINT "comments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "comments" ADD CONSTRAINT "comments_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "comments"("id") ON DELETE CASCADE ON UPDATE CASCADE;

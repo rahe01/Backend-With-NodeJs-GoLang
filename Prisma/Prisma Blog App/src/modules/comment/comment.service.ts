@@ -1,5 +1,10 @@
-import { CommentStatus } from "../../../generated/prisma/enums";
-import { prisma } from "../../lib/prisma";
+// comment.service.ts
+
+import { CommentStatus } from "generated/prisma/enums";
+import { prisma } from "src/lib/prisma";
+
+
+
 
 const createComment = async (payload: {
   content: string;
