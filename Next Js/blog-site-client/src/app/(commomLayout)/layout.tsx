@@ -6,14 +6,9 @@ export default function CommonLayout({
   children: React.ReactNode;
 }>) {
   return (
-   
-      <div>
- <Navbar></Navbar>
-        {children}
-      </div>
-       
-      
-    
-   
+    <div>
+      <Navbar></Navbar>
+      {children}
+    </div>
   );
 }
