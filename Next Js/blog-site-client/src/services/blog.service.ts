@@ -2,10 +2,6 @@ import { env } from "@/env";
 
 const API_URL = env.API_URL;
 
-//* No Dynamic and No { cache: no-store } : SSG -> Static Page
-//* { cache: no-store } : SSR -> Dynamic Page
-//* next: { revalidate: 10 } : ISR -> Mix between static and dynamic
-
 interface ServiceOptions {
   cache?: RequestCache;
   revalidate?: number;
@@ -17,9 +13,12 @@ interface GetBlogsParams {
 }
 
 export const blogService = {
+  // --------------------
+  // GET ALL BLOG POSTS
+  // --------------------
   getBlogPosts: async function (
     params?: GetBlogsParams,
-    options?: ServiceOptions
+    options?: ServiceOptions,
   ) {
     try {
       const url = new URL(`${API_URL}/posts`);
@@ -27,7 +26,7 @@ export const blogService = {
       if (params) {
         Object.entries(params).forEach(([key, value]) => {
           if (value !== undefined && value !== null && value !== "") {
-            url.searchParams.append(key, value);
+            url.searchParams.append(key, String(value));
           }
         });
       }
@@ -43,13 +42,22 @@ export const blogService = {
       }
 
       const res = await fetch(url.toString(), config);
-
       const data = await res.json();
 
-      // This is an example
-      //   if(data.success) {
-      //     return
-      //   }
+      return { data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Something Went Wrong" } };
+    }
+  },
+
+  // --------------------
+  // GET BLOG BY ID ✅ FIXED
+  // --------------------
+   getBlogById: async function (id: string) {
+    try {
+      const res = await fetch(`${API_URL}/posts/${id}`);
+
+      const data = await res.json();
 
       return { data: data, error: null };
     } catch (err) {
